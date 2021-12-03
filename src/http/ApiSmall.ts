@@ -1,8 +1,9 @@
 
+import { IRows } from '@/types/interfaces'
 import axios from 'axios'
 
 export class DataBaseSmall {
-  async getSmallDataBase (rows:number) {
+  async getSmallDataBase (rows:number):Promise<IRows[]> {
     try {
       const { data } = await axios.get('http://www.filltext.com/?&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&adress=%7BaddressObject%7D&description=%7Blorem%7C32%7D', {
         params: {
@@ -14,5 +15,6 @@ export class DataBaseSmall {
     } catch (e) {
       console.error(e)
     }
+    return this.getSmallDataBase(rows)
   }
 }
