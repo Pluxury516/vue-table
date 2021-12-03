@@ -12,6 +12,4 @@ export interface IRows{
     StreetAddress:string
     zip:string
   }
-  u:number
-  '': number
 }
