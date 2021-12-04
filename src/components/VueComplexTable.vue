@@ -96,7 +96,7 @@ export default class VueComplexTable extends Vue {
   pageNumber = 1
   size = 10
   showModalWindow = false
-  currentSortDir = ''
+  currentSortDir = 'asc'
   @Prop({ type: Number, default: 32 })rows!:number
   @Prop({ type: Array, required: true })fields!:Array<string>
 
@@ -178,8 +178,8 @@ export default class VueComplexTable extends Vue {
 
   sortTable (f:string):void {
     if (f) {
-      this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
-      this.users = _.orderBy(this.users, [f], [this.currentSortDir])
+      const dir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
+      this.users = _.orderBy(this.users, [f], [dir])
     }
   }
 
