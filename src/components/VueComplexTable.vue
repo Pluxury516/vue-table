@@ -23,16 +23,6 @@
               scope="col"
               @click="sortTable(field)">
               <span>{{ field }}</span>
-              <!-- <div class="th-icons-container">
-                <b-icon
-                  class="th-icon"
-                  icon="caret-down"
-                  @click="sortById" />
-                <b-icon
-                  class="th-icon"
-                  icon="caret-up"
-                  @click="sortByIdDown" />
-              </div> -->
             </th>
           </tr>
         </thead>
@@ -106,7 +96,7 @@ export default class VueComplexTable extends Vue {
   pageNumber = 1
   size = 10
   showModalWindow = false
-  currentSortDir:string | boolean = ''
+  currentSortDir = ''
   @Prop({ type: Number, default: 32 })rows!:number
   @Prop({ type: Array, required: true })fields!:Array<string>
 
