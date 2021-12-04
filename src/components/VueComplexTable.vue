@@ -176,7 +176,7 @@ export default class VueComplexTable extends Vue {
       })
   }
 
-  sortTable (f:string) {
+  sortTable (f:string):void {
     if (f) {
       this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
       this.users = _.orderBy(this.users, [f], [this.currentSortDir])
