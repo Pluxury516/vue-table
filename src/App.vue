@@ -20,7 +20,8 @@
       class="table-container">
       <VueComplexTable
         :fields="fields"
-        :rows="rows" />
+        :rows="table"
+        @delete="onDelete(tableIndex)" />
     </div>
   </div>
 </template>
@@ -38,17 +39,19 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 })
 export default class App extends Vue {
   fields:Array<string> = ['id', 'firstName', 'lastName', 'email', 'phone', 'adress.streetAddress', 'adress.city', 'adress.state', 'adress.zip', 'Actions']
-  rows = 0
-  tables = 0
+
+  tables:number[] = []
 
   getSmallTable ():void {
-    this.rows = 32
-    this.tables++
+    this.tables.push(32)
   }
 
   getBigTable ():void {
-    this.rows = 100
-    this.tables++
+    this.tables.push(100)
+  }
+
+  onDelete (i:number):void {
+    this.tables.splice(i, 1)
   }
 }
 </script>

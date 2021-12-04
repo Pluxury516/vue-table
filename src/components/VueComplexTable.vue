@@ -20,18 +20,21 @@
             <th
               v-for="(field,index) in fields"
               :key="index"
-              scope="col">
-              {{ field }}
+              scope="col"
+              @click="sortTable(field)">
+              <span>{{ field }}</span>
+              <!-- <div class="th-icons-container">
+                <b-icon
+                  class="th-icon"
+                  icon="caret-down"
+                  @click="sortById" />
+                <b-icon
+                  class="th-icon"
+                  icon="caret-up"
+                  @click="sortByIdDown" />
+              </div> -->
             </th>
           </tr>
-          <b-icon
-            class="th-icon"
-            icon="caret-down"
-            @click="sortById" />
-          <b-icon
-            class="th-icon2"
-            icon="caret-up"
-            @click="sortByIdDown" />
         </thead>
         <VueTableRows
           v-for="(user, rowIndex) in PaginationUsers"
@@ -81,13 +84,15 @@
   </div>
 </template>
 <script lang="ts">
-import { DataBaseSmall } from '@/http/ApiSmall'
-import { DataBaseBig } from '@/http/ApiBig'
+import { TableClient } from '@/http/TableClient'
 import { IRows } from '@/types/interfaces'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import VueTableRows from './VueTableRows.vue'
 import { flattenObject, clearObject } from '@/utils'
 import Modal from '@/components/app/Modal.vue'
+import _ from 'lodash'
+
+const tableClient = new TableClient()
 
 @Component({
   components: {
@@ -97,21 +102,16 @@ import Modal from '@/components/app/Modal.vue'
 })
 export default class VueComplexTable extends Vue {
   isVisible = true
-  users:Array<IRows> = []
+  users:IRows[] = []
   pageNumber = 1
   size = 10
   showModalWindow = false
-  @Prop({ type: Number, required: true })rows!:number
+  currentSortDir:string | boolean = ''
+  @Prop({ type: Number, default: 32 })rows!:number
   @Prop({ type: Array, required: true })fields!:Array<string>
 
   async created ():Promise<void> {
-    if (this.rows > 32) {
-      const getBigTable = new DataBaseBig()
-      this.users = (await (getBigTable.getBigDataBase(this.rows)))
-    } else {
-      const getSmallTable = new DataBaseSmall()
-      this.users = (await (getSmallTable.getSmallDataBase(this.rows)))
-    }
+    this.users = await tableClient.getData(this.rows)
     this.users = this.users.map(a => {
       return flattenObject(a)
     })
@@ -156,8 +156,7 @@ export default class VueComplexTable extends Vue {
   }
 
   deleteTable ():void {
-    this.$destroy()
-    this.$el.parentNode.removeChild(this.$el)
+    this.$emit('delete')
   }
 
   showModal ():void {
@@ -187,6 +186,13 @@ export default class VueComplexTable extends Vue {
       })
   }
 
+  sortTable (f:string) {
+    if (f) {
+      this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
+      this.users = _.orderBy(this.users, [f], [this.currentSortDir])
+    }
+  }
+
   get pages ():number {
     return Math.ceil(this.users.length / 10)
   }
@@ -204,6 +210,10 @@ export default class VueComplexTable extends Vue {
 table{
   position: relative;
   max-width: 600px;
+
+  th{
+    cursor: pointer;
+  }
 }
 
 .button-new-table{
@@ -212,26 +222,12 @@ table{
   left:20px
 }
 
-.th-icon{
-  position: absolute;
-  top: 14px;
-  left: 22px;
-  cursor: pointer;
-}
-
 .table-button{
 margin: 20px;
 }
 
 .table-size{
   position: relative;
-}
-
-.th-icon2{
- position: absolute;
-  top: 3px;
-  left: 22px;
-  cursor: pointer;
 }
 
 .button-container{
