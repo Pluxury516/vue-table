@@ -4,7 +4,7 @@
       v-if="showModalWindow"
       :users="users"
       @click="showModal"
-      @closePopup="closeModal"
+      @close="closeModal"
       @copyTable="onCopyTable">
       <pre>
        <code>
@@ -12,9 +12,8 @@
        </code>
      </pre>
     </Modal>
-    <div
-      class="table-size">
-      <table class="table table-bordered table-dark table-hover table-sm">
+    <div class="table-size">
+      <table class="table table-bordered table-dark table-hover table-responsive-sm">
         <thead>
           <tr>
             <th
@@ -27,7 +26,7 @@
           </tr>
         </thead>
         <VueTableRows
-          v-for="(user, rowIndex) in PaginationUsers"
+          v-for="(user, rowIndex) in paginationUsers"
           :key="rowIndex"
           :fields="fields"
           :user="user"
@@ -94,29 +93,21 @@ export default class VueComplexTable extends Vue {
   isVisible = true
   users:IRows[] = []
   pageNumber = 1
-  size = 10
+  pageSize = 10
   showModalWindow = false
-  currentSortDir = ''
+  currentSortDir = 'asc'
   @Prop({ type: Number, default: 32 })rows!:number
   @Prop({ type: Array, required: true })fields!:Array<string>
 
-  async created ():Promise<void> {
+  async mounted ():Promise<void> {
     this.users = await tableClient.getData(this.rows)
     this.users = this.users.map(a => {
       return flattenObject(a)
     })
   }
 
-  sortById ():void {
-    this.users.sort((a, b) => a.id - b.id)
-  }
-
   onChange (rowIndex:number, fieldName:string, fieldValue:string):void{
     this.$set(this.users[rowIndex], fieldName, fieldValue)
-  }
-
-  sortByIdDown ():void {
-    this.users.sort((a, b) => b.id - a.id)
   }
 
   pageClick (page:number):void {
@@ -187,81 +178,10 @@ export default class VueComplexTable extends Vue {
     return Math.ceil(this.users.length / 10)
   }
 
-  get PaginationUsers ():Array<IRows> {
-    const from = (this.pageNumber - 1) * this.size
-    const to = from + this.size
+  get paginationUsers ():Array<IRows> {
+    const from = (this.pageNumber - 1) * this.pageSize
+    const to = from + this.pageSize
     return this.users.slice(from, to)
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-table{
-  position: relative;
-  max-width: 600px;
-
-  th{
-    cursor: pointer;
-  }
-}
-
-.button-new-table{
-  position: absolute;
-  top:20px;
-  left:20px
-}
-
-.table-button{
-margin: 20px;
-}
-
-.table-size{
-  position: relative;
-}
-
-.button-container{
- position: absolute;
- display: flex;
- flex-direction: column;
-top:0;
-left: 100%;
-right: auto;
-width: 200px;
-}
-
-.pages-container{
-  display: flex;
-  justify-content: center;
-
-}
-
-.page{
-border: 1px solid #ccc;
-padding: 8px;
-cursor: pointer;
-margin-left: 10px;
-&:hover{
-  background: #ccc;
-  color: #ffffff;
-}
-}
-
-.page-selected{
-  background: #ccc;
-  color: #ffffff;
-}
-
-.search{
-  width: 30%;
-  border-radius: 5px;
-  outline: none;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  margin-bottom: 5px ;
-  &:focus {
-    border: 1px solid#778899;
-  }
-}
-
-</style>

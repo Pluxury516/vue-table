@@ -1,0 +1,62 @@
+html {
+  font-size: 16px;
+  @media (max-width: 425px) {
+      font-size: 15px;
+  }
+  @media (max-width: 375px) {
+      font-size: 14px;
+  }
+}
+
+body {
+  color: $black;
+  font-size: 1rem;
+  font-weight: 400;
+  height: 100%;
+  width: 100%;
+  background-color: #f1f5f8;
+
+  &.is-fixed {
+      overflow: hidden;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  color: $black;
+  font-weight: 400;
+}
+
+#app{
+   font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  padding: 20px; }
+
+.btn {
+  outline: none !important;
+  box-shadow: none !important;
+  &:last-child{
+    margin-left: 20px;
+  }
+}
+
+.table-container{
+  padding-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

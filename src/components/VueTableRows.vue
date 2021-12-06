@@ -28,9 +28,9 @@
 </template>
 
 <script lang="ts">
-import { IRows } from '@/types/interfaces'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import VueTableCell from './VueTableCell.vue'
+import { IRows } from '@/types/interfaces'
 
     @Component({
       components: {
@@ -62,13 +62,3 @@ addNewEndRows ():void{
 }
 
 </script>
-
-<style lang="scss">
-.icon-container{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
- cursor: pointer
-}
-</style>

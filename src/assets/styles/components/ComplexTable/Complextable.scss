@@ -1,0 +1,52 @@
+table{
+  max-width: 600px;
+  th{
+    cursor: pointer;
+  }
+}
+
+.button-new-table{
+  position: absolute;
+  top:20px;
+  left:20px
+}
+
+.table-button{
+  margin: 20px;
+  }
+
+  .table-size{
+    position: relative;
+  }
+
+  .button-container{
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+  top:0;
+  left: 100%;
+  right: auto;
+  width: 200px;
+  }
+
+  .pages-container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .page{
+  border: 1px solid $secondgrey;
+  padding: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  &:hover{
+    background: $secondgrey;
+    color: $white;
+  }
+  }
+
+  .page-selected{
+    background: $secondgrey;
+    color: $white;
+  }

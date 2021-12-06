@@ -2,13 +2,13 @@
   <div id="app">
     <div>
       <b-button
-        class="btnSmall"
+        class="btn"
         variant="dark"
         @click="getSmallTable">
         Add Small Table
       </b-button>
       <b-button
-        class="btnBig"
+        class="btn"
         variant="dark"
         @click="getBigTable">
         Add Big Table
@@ -31,7 +31,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import VueComplexTable from './components/VueComplexTable.vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 @Component({
   components: {
     VueComplexTable
@@ -57,23 +56,5 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding: 20px;
-}
-
-.btnBig{
-  margin-left: 20px;
-}
-.table-container{
-  padding-top: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+@import './assets/styles/index.scss';
 </style>
